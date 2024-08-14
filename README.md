@@ -1,7 +1,16 @@
 # Windows-Security-Scripts
-A collection of PowerShell scripts for investigating and securing Windows PCs. These tools help detect potential compromises by analyzing network connections, user accounts, shared folders, scheduled tasks, and system logs, offering both general and in-depth security assessments.
+A collection of PowerShell scripts for investigating Windows PCs. These tools help detect potential compromises by analyzing network connections, user accounts, shared folders, scheduled tasks, and system logs, offering both general and in-depth security assessments.
+
+## Disclaimer
+
+These scripts and recommendations are provided for the purpose of discovering Indicators of Compromise (IoC) during audits and forensic investigations. They are non-intrusive and are designed to gather information without affecting system operations.
+
+**Important:** While these tools can assist in identifying potential compromises, they are not a solution for mitigating or resolving security incidents. You must take appropriate and timely remediation actions to address any discovered compromises or vulnerabilities.
+
+By using these scripts, you agree that the author and contributors of this repository are not responsible for any damages or losses resulting from their use. Ensure you understand the potential implications and test these scripts in a controlled environment before applying them to production systems.
 
 ---
+
 
 ## Introduction
 
