@@ -1,11 +1,5 @@
 Below is a detailed set of activities with step-by-step instructions that you can perform using built-in Windows tools and interfaces. This will help you investigate, discover, and analyze potential security issues on a Windows system.
 
----
-
-### Filename: `Investigation_Activities.txt`
-
----
-
 # Investigation Activities
 
 ## 1. **Review Running Processes**
