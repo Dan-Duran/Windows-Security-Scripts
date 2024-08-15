@@ -1,10 +1,11 @@
 #####################################
-######## List Shared Folders ########
+######## List Shared Drives ########
 ####### Dan Duran - Rhyno.io ########
 #####################################
 
 # Define the output file
-$outputFile = "C:\Temp\Shared_Folders_Investigation.txt"
+$outputFile = "C:\Temp\Shared_Drives_Investigation.txt"
+
 
 # Create or clear the output file
 Clear-Content $outputFile -ErrorAction SilentlyContinue
@@ -14,30 +15,34 @@ New-Item -Path $outputFile -ItemType File -Force | Out-Null
 function Append-Output {
     param (
         [string]$title,
-        [scriptblock]$command
+        [ScriptBlock]$command
     )
-    "`n$title`n$($command | Out-String)" | Out-File -FilePath $outputFile -Append
+    "`n# $title" | Out-File -FilePath $outputFile -Append
+    "`n$($command.Invoke() | Out-String)" | Out-File -FilePath $outputFile -Append
 }
 
+
 # 1. List all shared folders on the local machine
-Append-Output "Shared Folders:" {
-    Get-SmbShare | Select-Object Name, Path, Description, State
+Append-Output "1. Shared Drives:" {
+    Get-SmbConnection
 }
 
 # 2. List active sessions on shared folders
-Append-Output "Active Sessions on Shared Folders:" {
+Append-Output "2. Active Sessions on Shared Drives:" {
     Get-SmbSession | Select-Object ClientComputerName, ClientUserName, SessionId, NumOpens, ConnectedTime, IdleTime
 }
 
 # 3. List open files on shared folders
-Append-Output "Open Files on Shared Folders:" {
+Append-Output "3. Open Files on Shared Drives:" {
     Get-SmbOpenFile | Select-Object ClientComputerName, ClientUserName, Path, SessionId, Dialect, NumLocks
 }
 
 # 4. Review Security Event Logs for Failed Share Access (Event ID 5140)
-Append-Output "Security Event Logs for Failed Share Access (Event ID 5140):" {
-    Get-WinEvent -LogName Security -FilterHashtable @{Id=5140} -MaxEvents 50 | Select-Object TimeCreated, Id, LevelDisplayName, Message
+Append-Output "4. Security Event Logs for Failed Share Access (Event ID 5140):" {
+    Get-WinEvent -LogName Security -MaxEvents 1000 | Where-Object { $_.Id -eq 5140 } | Select-Object TimeCreated, Id, LevelDisplayName, Message -First 50
 }
+
+
 
 # Indicate that the script has finished
 "`nScript completed. Check $outputFile for details." | Out-File -FilePath $outputFile -Append
