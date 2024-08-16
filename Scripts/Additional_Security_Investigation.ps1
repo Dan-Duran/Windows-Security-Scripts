@@ -58,17 +58,13 @@ Write-Host "8. Installed Software:"
 Get-WmiObject -Class Win32_Product | Select-Object Name, InstallDate | Sort-Object InstallDate -Descending
 
 
-# 9. Auto-Start Programs (HKLM and HKCU)
+# 9. Auto-Start Programs (HKLM)
 Write-Host "9. Auto-Start Programs (HKLM):"
-Get-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Run' | Select-Object PSChildName, Name, Value
+Get-ItemProperty -Path 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Run'
 
-Write-Host "Auto-Start Programs (HKCU):"
-Get-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' | Select-Object PSChildName, Name, Value
-
-# 10. Suspicious Registry Entries
-Write-Host "10. Suspicious Registry Entries (Startup Programs):"
-Get-ItemProperty -Path "HKLM:\Software\Microsoft\Windows\CurrentVersion\Run" | Select-Object Name, Value
-Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" | Select-Object Name, Value
+# 10. Auto-Start Programs (HKCU)
+Write-Host "10. Auto-Start Programs (HKCU):"
+Get-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run"
 
 # 11. Hosts File Content
 Write-Host "11. Hosts File Content:"
@@ -93,7 +89,7 @@ Try {
     Get-ADUser -Filter *
 }
 Catch {
-    Write-Host "Error: Unable to retrieve Active Directory Users. You might not have the necessary permissions or the computer might not be part of a domain."
+    Write-Host "Error: Unable to retrieve Active Directory Users."
 }
 
 # 16. System Event Logs for Service Changes (Event IDs 7045 and 7035)
